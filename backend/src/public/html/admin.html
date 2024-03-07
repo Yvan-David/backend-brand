@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Brand</title>
+    <link rel="stylesheet" href="/public/css/admin.css">
+    <script src="https://kit.fontawesome.com/b31bc96ce0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <nav>
+            <h2 class="logo">Portfolio.</h2>
+            <ul id="sidemenu">
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="/dashboard/dashboard.html">Dashboard</a></li>
+                <li><a href="#blogs">Blogs</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/login/login.html">
+                    <form action="/logout" method="get">
+                        <button type="submit">Logout</button>
+                    </form>
+                </a></li>
+                <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+        <div class="header-text">
+            <p>Hello it's Me<h1>Yvan David</h1>
+            <br>And I'am a <span>junior developer</span></p>
+        </div>
+    </div>
+</div>
+<!-- ------about----- -->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <img src="/public/images/me1.jpg">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About <span>Me</span></h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ipsa quibusdam perferendis itaque laboriosam voluptatem ab accusantium praesentium soluta tenetur cum maxime quae aliquam molestiae dolores, dolore, nam asperiores ullam?</p>
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                </div>
+                <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>UI/UX</span><br>Designing web/app</li>
+                        <li><span>web developement</span><br>building websites</li>
+                        <li><span>app developement</span><br>building apps</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>2024- Dev</span><br>full stack web dev</li>
+                        <li><span>2023- Database</span><br>training to build websites</li>
+                        <li><span>2022</span><br>leadership program</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>2024</span><br>at University</li>
+                        <li><span>2020</span><br>high school</li>
+                        <li><span>2017</span><br>ordinary level</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ------blogs------ -->
+<div id="blogs">
+    <div class="container">
+        <h1 class="sub-title">Blogs</h1>
+        <div class="blogs-list">
+            <div>
+                <i class="fa-solid fa-code"></i>
+                <h2>Web Design</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis delectus esse nihil facilis error. Non nesciunt illo velit culpa nobis id hic aut adipisci, necessitatibus ratione nulla aspernatur, consequuntur animi?</p>
+                <a href="/blog/blog.html">Learn more</a>
+            </div>
+            <div>
+                <i class="fa-solid fa-crop-simple"></i>
+                <h2>UI/UX Design</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis delectus esse nihil facilis error. Non nesciunt illo velit culpa nobis id hic aut adipisci, necessitatibus ratione nulla aspernatur, consequuntur animi?</p>
+                <a href="/blog/blog.html">Learn more</a>
+            </div>
+            <div>
+                <i class="fa-brands fa-app-store"></i>
+                <h2>app Design</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis delectus esse nihil facilis error. Non nesciunt illo velit culpa nobis id hic aut adipisci, necessitatibus ratione nulla aspernatur, consequuntur animi?</p>
+                <a href="/blog/blog.html">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ---------Projects------- -->
+<div id="projects">
+    <div class="container">
+        <h1 class="sub-title">My Projects</h1>
+        <div class="project-list">
+            <div class="project">
+                <img src="/public/images/img1.jpg">
+                <div class="layer">
+                    <h3>Therapy website</h3>
+                    <p>The website users can schedule therapy sessions</p>
+                    <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+            <div class="project">
+                <img src="/public/images/img2.jpg">
+                <div class="layer">
+                    <h3>AirBnb</h3>
+                    <p>The website users can book airbnb online</p>
+                    <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+            <div class="project">
+                <img src="/public/images/img3.jpg">
+                <div class="layer">
+                    <h3>portfolio website</h3>
+                    <p>The website users can see my work and hire me</p>
+                    <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="btn">See More</a>
+    </div>
+</div>
+<!-- -------------contact---------- -->
+<div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p><i class="fa-solid fa-paper-plane"></i> yvan@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i> +25079066123</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <a href="#" class="btn btn2">Download CV</a>
+            </div>
+            <div class="contact-right">
+                <form id="form">
+                    <input type="text" id="name" name="Name" placeholder="Your Name">
+                    <span id="name_error"></span>
+                    <input type="email" id="email" name="email" placeholder="Your Email">
+                    <span id="email_error"></span>
+                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright @ David. Made with love by imechit</p>
+    </div>
+</div>
+
+
+<script>
+    var tablinks = document.getElementsByClassName("tab-links")
+    var tabcontents = document.getElementsByClassName("tab-contents")
+
+    function opentab(tabname){
+        for(tablink of tablinks) tablink.classList.remove("active-link")
+        for(tabcontent of tabcontents) tabcontent.classList.remove("active-tab")
+        event.currentTarget.classList.add("active-link")
+        document.getElementById(tabname).classList.add("active-tab")
+    }
+</script>
+<script>
+    var sidemeu = document.getElementById("sidemenu");
+    function openmenu() {sidemeu.style.right = '0';}
+    function closemenu() {sidemeu.style.right = '-200px';}
+</script>
+<script src="/contact/contact.js"></script>
+
+<script src="admin.js"></script>
+<script>
+    function logout(){
+
+        let logged = (sessionStorage.getItem("logged")) || {};
+        let logged_users = JSON.parse(localStorage.getItem("logged_users")) || [];
+
+        // Used Array.findIndex to find the index of the user with the matching email
+        const userIndex = logged_users.findIndex((logged_user) => logged_user.email === logged);
+       
+        // if the user found remove them from the array
+        if(userIndex !== -1){
+            logged_users.splice(userIndex,1)
+
+            //update the local storage
+            localStorage.setItem('logged_users', JSON.stringify(logged_users))
+        }
+        sessionStorage.removeItem('logged');
+    }
+</script>
+<!-- <script>
+    function dash(){
+
+        let logged = (sessionStorage.getItem("logged")) || {};
+        let logged_users = JSON.parse(localStorage.getItem("logged_users")) || [];
+
+        // Used Array.findIndex to find the index of the user with the matching email
+        const userIndex = logged_users.findIndex((logged_user) => logged_user.email === logged);
+       
+        // if the user found remove them from the array
+        if(userIndex !== -1){
+            logged_users.splice(userIndex,1)
+
+            //update the local storage
+            localStorage.setItem('logged_users', JSON.stringify(logged_users))
+        }
+        sessionStorage.removeItem('logged');
+    }
+</script> -->
+</body>
+</html>
