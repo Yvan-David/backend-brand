@@ -13,11 +13,33 @@ export const getAllUsers = async (req: express.Request, res: express.Response) =
     }
 };
 
+export const getUser = async (req: express.Request, res: express.Response) => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.sendStatus(400);
+        }
+
+        const user = await getUserById(userId);
+
+        if (!user) {
+            return res.sendStatus(400);
+        }
+
+        return res.status(200).json(user);
+
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+};
+
 export const deleteUser = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userId } = req.params;
 
-        const deletedUser = await deleteUserById(id);
+        const deletedUser = await deleteUserById(userId);
 
         return res.json(deletedUser)
 
@@ -29,13 +51,13 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
 
 export const updateUser = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
+        const { userId } = req.params;
         const { username } = req.body;
 
         if (!username) {
             return res.sendStatus(400);
         }
-        const user = await getUserById(id);
+        const user = await getUserById(userId);
 
         user.username = username;
         await user.save();

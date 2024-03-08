@@ -10,15 +10,6 @@ const options: swaggerJsdoc.Options = {
             title: 'MyBrand REST API DOCS',
             version,
         },
-        components: {
-            securitySchemas: {
-                bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
-                },
-            },
-        },
         security: [
             {
                 bearerAuth: [],

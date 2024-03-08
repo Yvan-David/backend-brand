@@ -15,9 +15,9 @@ export const isAdmin = async (req: express.Request, res: express.Response, next:
         const existingUser = await getUserBySessionToken(sessionToken);
         const admin = await getUserById("65e54669ef073ff3e093a2b2");
 
-/*         if (!existingUser) {
+        if (!existingUser) {
             return res.status(403).json({message: "user"}).end();
-        } */
+        }
 
         if (!(existingUser._id.toString() === admin._id.toString())) {
             return res.status(403).json({message: "false"}).end();
