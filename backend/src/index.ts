@@ -10,7 +10,7 @@ import swaggerDocs from '../src/utils/swagger';
 import router from './router';
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 
 app.use(cors({
     credentials: true,
@@ -25,9 +25,9 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-server.listen(port , () => {
-    console.log('Server running on http://localhost:8080/');
-    swaggerDocs(app, 8080)
+server.listen(port, "0.0.0.0" , () => {
+    console.log(`Server running on http://localhost:${port}/`);
+    swaggerDocs(app, port)
 });
 
 const MONGO_URL = 'mongodb+srv://irankundayvan2020:uEPkT95XDH3LakQL@cluster0.ezlvpnn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
