@@ -27,7 +27,7 @@ const server = http.createServer(app);
 
 server.listen(port, "0.0.0.0" , () => {
     console.log(`Server running on http://localhost:${port}/`);
-    swaggerDocs(app, port)
+    swaggerDocs(app, 3000)
 });
 
 const MONGO_URL = 'mongodb+srv://irankundayvan2020:uEPkT95XDH3LakQL@cluster0.ezlvpnn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
