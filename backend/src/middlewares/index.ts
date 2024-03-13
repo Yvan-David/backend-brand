@@ -29,7 +29,7 @@ export const isAdmin = async (req: express.Request, res: express.Response, next:
 
     } catch (error) {
         console.log(error)
-        return res.sendStatus(400);
+        return res.status(400).json({message: "isAdmin Error"});
     }
 }
 
@@ -53,7 +53,7 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
 
     } catch (error) {
         console.log(error)
-        return res.sendStatus(400);
+        return res.status(400).json({message: "isAuthenticated Error"});
     }
 }
 
@@ -72,6 +72,6 @@ export const isOwner = async (req: express.Request, res: express.Response, next:
         next();
     } catch (error) {
         console.log(error);
-        return res.sendStatus(400);
+        return res.status(400).json({message: "isOwner Error"});
     }
 };

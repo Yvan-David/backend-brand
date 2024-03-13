@@ -1,7 +1,7 @@
 import express from 'express';
 
-import { getAllBlogs, deleteBlog, updateBlog, create } from '../controllers/blogs';
-import { isAuthenticated, isAdmin } from '../middlewares';
+import { getAllBlogs, deleteBlog, updateBlog, create, likeBlog, commentOnBlog } from '../controllers/blogs';
+import { isAuthenticated, isAdmin, isOwner } from '../middlewares';
 
 /**
  *  @openapi
@@ -114,5 +114,7 @@ export default (router: express.Router) => {
     router.post('/blogs', isAdmin, create);
     router.delete('/blogs/:id', isAdmin, deleteBlog);
     router.patch('/blogs/:id',isAdmin, updateBlog);
+    router.post('/blogs/:id/like/:userId', isAuthenticated, isOwner, likeBlog);
+    router.post('/blogs/:id/comment/:userId',isAuthenticated,isOwner, commentOnBlog);
 
 };

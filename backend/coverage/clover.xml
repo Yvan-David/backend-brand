@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1709888980944" clover="3.2.0">
-  <project timestamp="1709888980944" name="All files">
+<coverage generated="1709893465304" clover="3.2.0">
+  <project timestamp="1709893465304" name="All files">
     <metrics statements="37" coveredstatements="18" conditionals="3" coveredconditionals="0" methods="8" coveredmethods="6" elements="48" coveredelements="24" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
     <file name="users.ts" path="/mnt/c/Users/Admin/Desktop/Andela/backend-brand/backend/src/controllers/users.ts">
       <metrics statements="37" coveredstatements="18" conditionals="3" coveredconditionals="0" methods="8" coveredmethods="6"/>

@@ -3,6 +3,7 @@ import express from 'express';
 import authentication from './authentication';
 import users from './users';
 import blogs from './blogs';
+import messages from './messages';
 
 /**
  * @openapi
@@ -44,7 +45,8 @@ const router = express.Router();
 export default (): express.Router => {
     authentication(router);
     users(router);
-    blogs(router)
+    blogs(router);
+    messages(router);
 
     return router;
 };

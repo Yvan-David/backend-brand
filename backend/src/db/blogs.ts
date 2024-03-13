@@ -1,4 +1,33 @@
 import mongoose from "mongoose";
+import {UserModel} from "./users"
+
+const CommentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: UserModel,
+        required: true
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+const LikeSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: UserModel,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
 const BlogSchema = new mongoose.Schema({
     title: {
@@ -9,6 +38,8 @@ const BlogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    likes: [LikeSchema],
+    comments: [CommentSchema],
     createdAt: {
         type: Date,
         default: Date.now
