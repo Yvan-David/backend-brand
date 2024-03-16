@@ -13,6 +13,7 @@ const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 
 const allowedOrigins = [
+    'https://backend-brand-production.up.railway.app/',
     'http://127.0.0.1:5500',
     'http://127.0.0.1:5500/signup',
     'http://127.0.0.1:5500/index.html',
