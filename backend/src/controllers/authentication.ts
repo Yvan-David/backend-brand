@@ -33,11 +33,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         await user.save();
 
         res.cookie('AD-AUTH', user.authentication.sessionToken, {domain: 'localhost', path: '/'});
-        if (userId === adminId){
-            res.redirect('/admin');
-        }
-        else{
-        res.redirect(`/home/${userId}`);}
+        res.status(200).json({user})
 
     } catch (error) {
         console.log(error);
@@ -72,7 +68,7 @@ export const register = async (req: express.Request, res: express.Response) => {
         });
 
 
-        res.redirect(`/login`);
+        res.status(200).json({user});
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);

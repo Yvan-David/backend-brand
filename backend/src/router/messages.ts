@@ -6,87 +6,49 @@ import { isAdmin } from '../middlewares';
 /**
  *  @openapi
  * tags:
- *   name: Users
- *   description: The Users managing API 
- * /users:
+ *   name: Messages
+ *   description: The Messages managing API 
+ * /messages:
  *   get:
- *     summary: Lists all the users
- *     tags: [Users]
+ *     summary: Lists all the messages sent
+ *     tags: [Messages]
+ *     parameters:
+ *       - in: querry
+ *         name: id
+ *         schema:
+ *           type: string
+ *         description: get messages sent by a specified user with the id passed
  *     responses:
  *       200:
- *         description: All users who signed up
+ *         description: All messages that have been sent
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/Message'
  *       403:
  *         description: Admin privileges needed
- * /users/{id}:
- *   get:
- *     summary: Get a user by id
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
- *     responses:
- *       200:
- *         description: The user as a response by id
- *         content:
- *           application/json:
- *             schema:
- *                 $ref: '#/components/schemas/User'
- *       403:
- *         description: Admin Privileges needed or The user was not found
- *   patch:
- *     summary: Update a user by id
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
+ *   post:
+ *     summary: Creates a message
+ *     tags: [Messages]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/Message'
  *     responses:
  *       200:
- *         description: The user was updated
+ *         description: The created Message
  *         content:
  *           application/json:
  *             schema:
- *                 $ref: '#/components/schemas/User'
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Message'
  *       403:
- *         description: Admin Privileges needed or The user was not found
- *   delete:
- *     summary: Remove a user by id
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
- *     responses:
- *       200:
- *         description: The user has been removed
- *         content:
- *           application/json:
- *             schema:
- *                 $ref: '#/components/schemas/User'
- *       403:
- *         description: Admin Privileges needed or The user was not found
+ *         description: Something went wrong
  */
 
 export default (router: express.Router) => {

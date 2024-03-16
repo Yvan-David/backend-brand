@@ -37,6 +37,42 @@ import messages from './messages';
  *         password:
  *           type: string
  *           description: a password to authenticate
+ *     Message:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - body
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: The sendr name
+ *         email:
+ *           type: string
+ *           description: the email address of the sender
+ *         body:
+ *           type: string
+ *           description: the message content
+ *     Comments:
+ *       type: object
+ *       required:
+ *         - user
+ *         - text
+ *       properties:
+ *         user:
+ *           type: object
+ *           description: The user objectId
+ *         text:
+ *           type: string
+ *           description: the comments content
+ *     Likes:
+ *       type: object
+ *       required:
+ *         - user
+ *       properties:
+ *         user:
+ *           type: object
+ *           description: The user objectId
  */
 
 

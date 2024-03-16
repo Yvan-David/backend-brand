@@ -52,6 +52,8 @@ const BlogSchema = new mongoose.Schema({
 });
 
 export const BlogModel = mongoose.model('Blog', BlogSchema);
+export const LikeModel = mongoose.model('Like', BlogSchema);
+export const CommentModel = mongoose.model('Comment', BlogSchema);
 
 export const getBlogs = () => BlogModel.find({})
 export const getBlogByTitle = (title: string) => BlogModel.findOne({ title });
@@ -61,4 +63,5 @@ export const getBlogBySessionToken = (sessionToken: string) => BlogModel.findOne
 export const getBlogById = (id: string) => BlogModel.findById(id);
 export const createBlog = (values: Record<string, any>) => new BlogModel(values).save().then((blog) => blog.toObject);
 export const deleteBlogById = (id: string) => BlogModel.findOneAndDelete({_id: id});
+export const deleteLikeById = (id: string) => LikeModel.findOneAndDelete({_id: id});
 export const updateBlogById = (id: string, values: Record<string, any>) => BlogModel.findByIdAndUpdate(id, values);

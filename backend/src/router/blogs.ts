@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getAllBlogs, deleteBlog, updateBlog, create, likeBlog, commentOnBlog } from '../controllers/blogs';
+import { getAllBlogs, deleteBlog, updateBlog, create, likeBlog, commentOnBlog, deleteLike } from '../controllers/blogs';
 import { isAuthenticated, isAdmin, isOwner } from '../middlewares';
 
 /**
@@ -107,6 +107,94 @@ import { isAuthenticated, isAdmin, isOwner } from '../middlewares';
  *                 $ref: '#/components/schemas/Blog'
  *       403:
  *         description: Admin Privileges needed or The blog was not found
+ * /blogs/{id}/like/{userId}:
+ *   post:
+ *     summary: Creates a like
+ *     tags: [Likes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: blog id
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     responses:
+ *       200:
+ *         description: The User liked the blog
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Likes'
+ *       403:
+ *         description: Admin privileges needed
+ * /blogs/{id}/like/{userId}/{likeId}:
+ *   delete:
+ *     summary: Remove a like
+ *     tags: [Likes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The blog id
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *       - in: path
+ *         name: likeId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The like id
+ *     responses:
+ *       200:
+ *         description: The like on the blog has been removed
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/Likes'
+ *       403:
+ *         description: The blog or user was not found
+ * /blogs/{id}/comment/{userId}:
+ *   post:
+ *     summary: Creates a comment
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: blog id
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     responses:
+ *       200:
+ *         description: The User created comment on the blog
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Comments'
+ *       403:
+ *         description: user or blog not found
  */
 
 export default (router: express.Router) => {
@@ -115,6 +203,7 @@ export default (router: express.Router) => {
     router.delete('/blogs/:id', isAdmin, deleteBlog);
     router.patch('/blogs/:id',isAdmin, updateBlog);
     router.post('/blogs/:id/like/:userId', isAuthenticated, isOwner, likeBlog);
+    router.delete('/blogs/:id/like/:userId/:likeId', isAuthenticated, isOwner, deleteLike);
     router.post('/blogs/:id/comment/:userId',isAuthenticated,isOwner, commentOnBlog);
 
 };

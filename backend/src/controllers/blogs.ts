@@ -1,6 +1,8 @@
+import DocumentArray from 'mongoose';
 import express from 'express';
 
-import {BlogModel, deleteBlogById, getBlogById, getBlogs, createBlog, getBlogByTitle } from '../db/blogs';
+
+import {BlogModel, deleteBlogById, getBlogById, getBlogs, createBlog, getBlogByTitle, deleteLikeById } from '../db/blogs';
 
 export const getAllBlogs = async (req: express.Request, res: express.Response) => {
     try {
@@ -119,6 +121,40 @@ export const likeBlog = async (req: express.Request, res: express.Response) => {
         return res.sendStatus(400);
     }
 };
+
+export const deleteLike = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id, likeId, userId } = req.params;
+
+        const blog = await BlogModel.findById(id);
+
+        if (!blog) {
+            return res.status(404).json({ message: "No blog found" });
+        }
+
+        // Check if the user has already liked the blog
+        const hasLiked = blog.likes.some((like) => like._id.toString() === likeId && like.user.toString() === userId);
+
+        if (!hasLiked) {
+            return res.status(404).json({ message: "Like not found" });
+        }
+        const deletedLike = await deleteLikeById(likeId);
+
+        // Filter out the like from the blog.likes array and cast the result
+        delete blog.likes;
+
+        await blog.save();
+
+        // Delete the like from the database if needed
+        
+
+        return res.status(200).json({ message: "Like deleted successfully",  deletedLike});
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+};
+
 
 export const commentOnBlog = async (req: express.Request, res: express.Response) => {
     try {
