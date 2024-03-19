@@ -1,29 +1,39 @@
 import express from 'express';
 import {get, merge} from 'lodash';
+import jwt, {JwtPayload} from 'jsonwebtoken';
 
-import { getUserBySessionToken, getUserById } from '../db/users';
+import { getUserById } from '../db/users';
 
-
-export const isAdmin = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export interface CustomRequest extends express.Request {
+    userId?: string; // Add the 'id' property here
+  }
+export const isAdmin = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
     try {
-        const sessionToken = req.cookies['AD-AUTH'];
+        // Extract the Authorization header from the request
+        const authorizationHeader = req.headers.authorization;
+       // console.log(authorizationHeader)
+        let token: string;
 
-        if(!sessionToken) {
-            return res.sendStatus(403);
+        if (authorizationHeader) {
+            const tokenParts = authorizationHeader.split(' ');
+            if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+                return res.status(403).json({ message: "Invalid authorization header format" });
+            }
+    
+            token = tokenParts[1];
+            
+           // return res.status(403).json({ message: "No authorization header provided" });
+        }else {
+            token = req.cookies.token1;
         }
 
-        const existingUser = await getUserBySessionToken(sessionToken);
-        const admin = await getUserById("65e54669ef073ff3e093a2b2");
-
-        if (!existingUser) {
-            return res.status(403).json({message: "user"}).end();
+        if (!token) {
+            return res.status(403).json({ message: "no sessionToken0" });
         }
-
-        if (!(existingUser._id.toString() === admin._id.toString())) {
-            return res.status(403).json({message: "false"}).end();
+        const decoded = jwt.verify(token, 'Mysecret')  as JwtPayload & {userId:string}
+        if(!(decoded.userId === '65f79e312849bf24d1f419c8')){
+            return res.status(403).json({message: "unauthorised"});
         }
-
-        merge(req, {identity: existingUser});
 
         return next();
 
@@ -35,13 +45,14 @@ export const isAdmin = async (req: express.Request, res: express.Response, next:
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-        const sessionToken = req.cookies['AD-AUTH'];
-
-        if(!sessionToken) {
-            return res.sendStatus(403);
+        const token = req.cookies.token1;
+        if(!token) {
+            return res.status(403).json({message: "no token"});
         }
+        const decoded = jwt.verify(token, 'Mysecret')  as JwtPayload & {userId:string}
+        const id = decoded.userId;
 
-        const existingUser = await getUserBySessionToken(sessionToken);
+        const existingUser = await getUserById(id);
 
         if (!existingUser) {
             return res.status(403).json({message: "falseAuth"});

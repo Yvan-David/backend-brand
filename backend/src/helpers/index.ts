@@ -1,14 +1,14 @@
-import crypto from 'crypto';
+import {v2 as cloudinary} from 'cloudinary';
+          
+cloudinary.config({ 
+  cloud_name: 'ddf0u9tgz', 
+  api_key: '144849361932884', 
+  api_secret: 'AOqmdtBz9m0XnqBm13qzK1cbFBg' 
+});
 
-const SECRET = 'BACKEND-API';
-
-export const random = () => crypto.randomBytes(128).toString('base64');
-export const authentication = (salt: string, password: string) => {
-    return crypto.createHmac('sha256', [salt, password].join('/')).update(SECRET).digest('hex');
-};
-
-export const isValidEmail = (email: string): boolean => {
+/* export const isValidEmail = (email: string): boolean => {
     const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
     return emailRegex.test(email);
-  };
+  }; */
+  export default cloudinary;

@@ -1,8 +1,7 @@
 import express from 'express';
-
+import bcrypt from 'bcrypt';
 import { getUserByEmail, createUser, getUserById } from '../db/users';
-import { random, authentication } from '../helpers';
-
+import jwt from 'jsonwebtoken';
 export const login = async (req: express.Request, res: express.Response) => {
     try {
         const email = req.body.email;
@@ -12,28 +11,23 @@ export const login = async (req: express.Request, res: express.Response) => {
             return res.sendStatus(400);
         }
 
-        const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
+        const user = await getUserByEmail(email);
 
         if (!user) {
             return res.status(400).json({message: "problem with getting the user"});
         }
+        const isValidPassword = await bcrypt.compare(password, user.password);
 
-        const userId = user._id.toString()
-        const adminId = (await getUserById("65e54669ef073ff3e093a2b2"))._id.toString();
-
-        const expectedHash = authentication(user.authentication.salt, password);
-
-        if (user.authentication.password !== expectedHash){
+        if (!isValidPassword){
             return res.status(403).json({message: "invalid email or password"});
         }
 
-        const salt = random();
-        user.authentication.sessionToken = authentication(salt, user._id.toString());
-
+        const token = jwt.sign({userId: user._id}, 'Mysecret');
+        res.cookie('token1', token, {httpOnly: true});
         await user.save();
-
-        res.cookie('AD-AUTH', user.authentication.sessionToken, {domain: 'localhost', path: '/'});
-        res.status(200).json({user})
+        res.status(201)
+        .header('Authorization', `Bearer ${token}`)
+        .send({ message: 'User created successfully', token, user });
 
     } catch (error) {
         console.log(error);
@@ -56,19 +50,15 @@ export const register = async (req: express.Request, res: express.Response) => {
         if (existingUser) {
             return res.sendStatus(400)
         }
-
-        const salt = random();
+        const hashedPassword = await bcrypt.hash(password, 10)
         const user = await createUser({
             email,
             username,
-            authentication: {
-                salt,
-                password: authentication(salt, password),
-            }
+            password: hashedPassword,
         });
 
 
-        res.status(200).json({user});
+        res.status(200).json(user);
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);

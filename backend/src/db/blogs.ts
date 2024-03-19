@@ -40,6 +40,11 @@ const BlogSchema = new mongoose.Schema({
     },
     likes: [LikeSchema],
     comments: [CommentSchema],
+    image: {
+        type: Object || String,
+        required: true,
+        default: "null"
+    },
     createdAt: {
         type: Date,
         default: Date.now

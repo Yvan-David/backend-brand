@@ -1,7 +1,8 @@
 import express from 'express';
 
-import { getAllBlogs, deleteBlog, updateBlog, create, likeBlog, commentOnBlog, deleteLike } from '../controllers/blogs';
-import { isAuthenticated, isAdmin, isOwner } from '../middlewares';
+import { getAllBlogs,getBlog, deleteBlog, updateBlog, create, likeBlog, commentOnBlog, deleteLike, getcommentOnBlog } from '../controllers/blogs';
+import { isAuthenticated, isAdmin, isOwner } from '../middlewares/index';
+import upload from '../middlewares/multer';
 
 /**
  *  @openapi
@@ -199,11 +200,13 @@ import { isAuthenticated, isAdmin, isOwner } from '../middlewares';
 
 export default (router: express.Router) => {
     router.get('/blogs', getAllBlogs);
+    router.get('/blogs/:id', getBlog);
     router.post('/blogs', isAdmin, create);
     router.delete('/blogs/:id', isAdmin, deleteBlog);
     router.patch('/blogs/:id',isAdmin, updateBlog);
     router.post('/blogs/:id/like/:userId', isAuthenticated, isOwner, likeBlog);
     router.delete('/blogs/:id/like/:userId/:likeId', isAuthenticated, isOwner, deleteLike);
+    router.get('/blogs/:id/comment',getcommentOnBlog);
     router.post('/blogs/:id/comment/:userId',isAuthenticated,isOwner, commentOnBlog);
 
 };

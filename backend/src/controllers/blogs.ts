@@ -1,8 +1,9 @@
-import DocumentArray from 'mongoose';
+
 import express from 'express';
+import cloudinary from '../helpers/index';
 
 
-import {BlogModel, deleteBlogById, getBlogById, getBlogs, createBlog, getBlogByTitle, deleteLikeById } from '../db/blogs';
+import {BlogModel, deleteBlogById, getBlogById, getBlogs, CommentModel, createBlog, getBlogByTitle, deleteLikeById } from '../db/blogs';
 
 export const getAllBlogs = async (req: express.Request, res: express.Response) => {
     try {
@@ -73,10 +74,17 @@ export const updateBlog = async (req: express.Request, res: express.Response) =>
 };
 export const create = async (req: express.Request, res: express.Response) => {
     try {
-        const {title, body} = req.body;
+/*         let image = null;
+  
+        if (req.file) {
+          const result = await cloudinary.uploader.upload(req.file.path);
+          image = result ? result.secure_url : null;
+        }
+   */
+        const {title, body, image} = req.body;
 
         if (!title || !body){
-            return res.sendStatus(400);
+            return res.status(400);
         }
 
         const existingBlog = await getBlogByTitle(title);
@@ -87,13 +95,14 @@ export const create = async (req: express.Request, res: express.Response) => {
 
         const blog = await createBlog({
             title,
-            body
+            body,
+            image
         });
 
         return res.status(200).json(blog).end();
     } catch (error) {
         console.log(error);
-        return res.sendStatus(400);
+        return res.status(400).json({message: "failed to create blog"});
     }
 }
 
@@ -180,3 +189,14 @@ export const commentOnBlog = async (req: express.Request, res: express.Response)
         return res.sendStatus(400);
     }
 };
+export const getcommentOnBlog = async (req: express.Request, res: express.Response) => {
+    try {
+        const comments = await CommentModel.find({});
+
+        return res.status(200).json(comments);
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+};
+
