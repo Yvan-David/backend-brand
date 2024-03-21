@@ -11,4 +11,4 @@ cloudinary.config({
   
     return emailRegex.test(email);
   }; */
-  export default cloudinary;
+  export {cloudinary};

@@ -2,7 +2,10 @@ import express from 'express';
 
 import { getAllBlogs,getBlog, deleteBlog, updateBlog, create, likeBlog, commentOnBlog, deleteLike, getcommentOnBlog } from '../controllers/blogs';
 import { isAuthenticated, isAdmin, isOwner } from '../middlewares/index';
-import upload from '../middlewares/multer';
+// import upload from '../middlewares/multer';
+import multer, { Multer } from 'multer';
+import path from 'path';
+interface UploadedFile extends Express.Multer.File { }
 
 /**
  *  @openapi
@@ -198,12 +201,38 @@ import upload from '../middlewares/multer';
  *         description: user or blog not found
  */
 
+const upload = multer({ dest: "uploads" })
+// upload.single('image')
+//configure multer
+
+/* const multerStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+         cb(null, './public/images/');
+    },
+    filename: function (req, file, cb) {
+         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+}); */
+/* const multerFilter = (req: Request, file: UploadedFile, cb: Function) => {
+
+    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+         // upload only png and jpg format
+         return cb(new Error('Please upload a Image'))
+    }
+    cb(null, true)
+
+}; */
+
+/* const upload = multer({
+    storage: multerStorage,
+    // fileFilter: multerFilter
+}); */
 export default (router: express.Router) => {
     router.get('/blogs', getAllBlogs);
     router.get('/blogs/:id', getBlog);
-    router.post('/blogs', isAdmin, create);
+    router.post('/blogs', isAdmin, upload.single('image'), create);
     router.delete('/blogs/:id', isAdmin, deleteBlog);
-    router.patch('/blogs/:id',isAdmin, updateBlog);
+    router.patch('/blogs/:id',isAdmin,upload.single('image'), updateBlog);
     router.post('/blogs/:id/like/:userId', isAuthenticated, isOwner, likeBlog);
     router.delete('/blogs/:id/like/:userId/:likeId', isAuthenticated, isOwner, deleteLike);
     router.get('/blogs/:id/comment',getcommentOnBlog);

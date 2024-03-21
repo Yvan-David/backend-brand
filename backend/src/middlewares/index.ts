@@ -45,7 +45,23 @@ export const isAdmin = async (req: CustomRequest, res: express.Response, next: e
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-        const token = req.cookies.token1;
+        // Extract the Authorization header from the request
+        const authorizationHeader = req.headers.authorization;
+        // console.log(authorizationHeader)
+            let token: string;
+    
+        if (authorizationHeader) {
+                const tokenParts = authorizationHeader.split(' ');
+                if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+                    return res.status(403).json({ message: "Invalid authorization header format" });
+                }
+        
+                token = tokenParts[1];
+                
+            // return res.status(403).json({ message: "No authorization header provided" });
+        }else {
+                token = req.cookies.token1;
+            }
         if(!token) {
             return res.status(403).json({message: "no token"});
         }

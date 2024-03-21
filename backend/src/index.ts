@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import swaggerDocs from '../src/utils/swagger';
+import multer from 'multer';
 
 
 import router from './router';
@@ -41,6 +42,7 @@ app.use(cors({
     allowedHeaders: 'Content-Type, Authorization',
 }));
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());

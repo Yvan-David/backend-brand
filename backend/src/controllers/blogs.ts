@@ -1,6 +1,6 @@
 
 import express from 'express';
-import cloudinary from '../helpers/index';
+import {cloudinary } from '../helpers/index';
 
 
 import {BlogModel, deleteBlogById, getBlogById, getBlogs, CommentModel, createBlog, getBlogByTitle, deleteLikeById } from '../db/blogs';
@@ -54,54 +54,77 @@ export const deleteBlog = async (req: express.Request, res: express.Response) =>
 
 export const updateBlog = async (req: express.Request, res: express.Response) => {
     try {
+        const { title, body } = req.body;
         const { id } = req.params;
-        const { body } = req.body;
+        let image = null;
 
-        if (!body) {
-            return res.sendStatus(400);
+        // If a file is uploaded, upload it to cloudinary
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path);
+            console.log('Cloudinary upload result:', result); 
+            image = result ? result.secure_url : null;
         }
-        const blog = await getBlogById(id);
 
-        blog.body = body;
-        await blog.save();
+        // Fetch the blog post by ID
+        let blog = await getBlogById(id);
+        console.log(blog)
+        if (!blog) {
+            return res.status(404).json({ error: 'Blog post not found' });
+        }
 
-        return res.status(200).json(body).end();
+        // Update the blog post with new data
+        blog.image = image || blog.image; // If image is not uploaded, keep the existing image
+        blog.body = body || blog.body; // If body is not provided, keep the existing body
+        blog.title = title || blog.title; // If title is not provided, keep the existing title
 
-    } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        // Save the updated blog post
+        blog = await blog.save();
+
+        // Send response indicating success
+        return res.status(200).json({ blog, message: 'Blog updated!' });
+    } catch (err) {
+        console.error('Error updating blog:', err);
+        return res.status(500).json({ message: 'Failed to update blog' });
     }
 };
+
 export const create = async (req: express.Request, res: express.Response) => {
     try {
-/*         let image = null;
+        let img = null;
   
         if (req.file) {
           const result = await cloudinary.uploader.upload(req.file.path);
-          image = result ? result.secure_url : null;
-        }
-   */
-        const {title, body, image} = req.body;
-
-        if (!title || !body){
-            return res.status(400);
+          img = result ? result.secure_url : null;
         }
 
-        const existingBlog = await getBlogByTitle(title);
+        console.log("Received request to create blog:", req.body);
+       const {title, body} = req.body;
+
+       if (!title || !body){
+        console.log("Invalid request body:", req.body);
+           return res.status(400);
+       }
+
+       const existingBlog = await getBlogByTitle(title);
 
         if (existingBlog) {
-            return res.sendStatus(400)
+            console.log("Blog with title already exists:", title);
+            return res.status(400).json({message: "Blog with same title already exists"});
+        
         }
-
+  
+        console.log("Image uploaded successfully:", img);
         const blog = await createBlog({
             title,
             body,
-            image
+            image: img
         });
+        console.log("Blog created successfully:", blog);
 
         return res.status(200).json(blog).end();
+
     } catch (error) {
-        console.log(error);
+        console.error("Error occurred while creating blog:", error);
         return res.status(400).json({message: "failed to create blog"});
     }
 }
